@@ -118,6 +118,7 @@ section{padding:clamp(48px,7vw,84px) 0}
 .store:hover{transform:translateY(-2px);filter:brightness(1.08)}
 .store svg{width:20px;height:20px;flex:none;fill:currentColor}
 .store small{display:block;font-size:.7rem;font-weight:400;opacity:.78;line-height:1.15}
+.astuce-appli{text-align:center;font-size:.85rem;line-height:1.4;margin:.9rem auto 0;max-width:34ch;opacity:.85}
 
 /* ─────────── étapes ─────────── */
 .steps{list-style:none;padding:0;margin:2rem 0 0;display:grid;gap:14px}
@@ -499,15 +500,51 @@ footer a{color:var(--muted)}
      américaine, donc « My Motivation Board » à une visiteuse française. */
   var PAYS = { fr:'fr', en:'us', es:'es', de:'de', nl:'nl', pt:'pt', ar:'ae' };
 
+  /* Google Play sur Android — 13 sept. 2026.
+     Dans le navigateur intégré d'Instagram, et sur les téléphones Xiaomi, un
+     lien play.google.com ouvrait la PAGE WEB de Google Play, où « Installer »
+     ne fait rien faute de compte Google connecté. Sur Android, on demande donc
+     directement l'application Play Store (Chrome retombe sur la page web si
+     elle ne s'ouvre pas). Dans Instagram ou Facebook, une ligne explique en
+     plus comment passer par Chrome, au cas où leur navigateur refuserait. */
+  var ASTUCE = {
+    fr: "Le bouton Google Play ne s'ouvre pas ? Touchez ⋮ en haut à droite, puis « Ouvrir dans Chrome ».",
+    en: "Google Play button not opening? Tap ⋮ at the top right, then “Open in Chrome”.",
+    es: "¿No se abre el botón de Google Play? Toca ⋮ arriba a la derecha y luego «Abrir en Chrome».",
+    de: "Der Google-Play-Button öffnet sich nicht? Tippe oben rechts auf ⋮ und dann auf „In Chrome öffnen“.",
+    nl: "Opent de Google Play-knop niet? Tik rechtsboven op ⋮ en dan op ‘Openen in Chrome’.",
+    pt: "O botão do Google Play não abre? Toca em ⋮ no canto superior direito e depois em «Abrir no Chrome».",
+    ar: "لا يفتح زر Google Play؟ اضغط على ⋮ في الأعلى ثم «فتح في Chrome»."
+  };
+
   function liensStores(code) {
     var pays = PAYS[code] || 'fr';
+    var ua = navigator.userAgent || '';
+    var android = /Android/i.test(ua);
+    var dansAppli = android && /Instagram|FBAN|FBAV|FB_IAB/i.test(ua);
+    var web = 'https://play.google.com/store/apps/details?id=com.tdmotivation.app&hl=' + code;
     document.querySelectorAll('a.store').forEach(function (a) {
       if (a.classList.contains('alt')) {
-        a.href = 'https://play.google.com/store/apps/details?id=com.tdmotivation.app&hl=' + code;
+        a.href = android
+          ? 'intent://details?id=com.tdmotivation.app&hl=' + code
+            + '#Intent;scheme=market;package=com.android.vending;S.browser_fallback_url='
+            + encodeURIComponent(web) + ';end'
+          : web;
       } else {
         a.href = 'https://apps.apple.com/' + pays + '/app/id6776383630';
       }
     });
+    if (dansAppli) {
+      document.querySelectorAll('.stores').forEach(function (bloc) {
+        var p = bloc.nextElementSibling;
+        if (!p || !p.classList.contains('astuce-appli')) {
+          p = document.createElement('p');
+          p.className = 'astuce-appli';
+          bloc.parentNode.insertBefore(p, bloc.nextSibling);
+        }
+        p.textContent = ASTUCE[code] || ASTUCE.fr;
+      });
+    }
   }
 
   var elements = [].slice.call(document.querySelectorAll('[data-t]'));
