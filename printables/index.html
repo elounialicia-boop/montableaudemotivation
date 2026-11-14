@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free printable motivation board for kids — My Motivation Board</title>
+<meta name="description" content="Free printable motivation boards for kids aged 3 to 10, with routine cards in pictures or words. Print, laminate, and off you go!">
+<meta property="og:title" content="Free printable motivation board for kids">
+<meta property="og:description" content="3 printable boards with their routine cards, for kids aged 3 to 10.">
+<meta property="og:image" content="preview-1.jpg">
+<link rel="alternate" hreflang="fr" href="../imprimer/">
+<link rel="icon" href="../images/icone.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;800&family=Lora:ital,wght@0,400;0,500;1,400&display=swap">
+<style>
+:root{
+  --ground:#FFF6ED; --surface:#FFFFFF; --lavande:#EDE5FF; --menthe:#E8F5E9;
+  --ink:#4A3060; --muted:#6F5C82; --line:#E8DDF0;
+  --purple:#9B59B6; --purple-ink:#7B3E96; --accent:#E05FA0; --vert-texte:#2F7D4F;
+  --shadow:0 1px 2px rgba(74,48,96,.07),0 10px 26px rgba(74,48,96,.09);
+  --radius:20px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#17131F; --surface:#221B2E; --lavande:#272033; --menthe:#222E28;
+    --ink:#EDE6F3; --muted:#A093AE; --line:#372C47;
+    --purple:#B79BD6; --purple-ink:#C9B4E4; --accent:#E58AB5; --vert-texte:#7FC79B;
+    --shadow:0 1px 2px rgba(0,0,0,.45),0 10px 28px rgba(0,0,0,.38);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#17131F; --surface:#221B2E; --lavande:#272033; --menthe:#222E28;
+  --ink:#EDE6F3; --muted:#A093AE; --line:#372C47;
+  --purple:#B79BD6; --purple-ink:#C9B4E4; --accent:#E58AB5; --vert-texte:#7FC79B;
+  --shadow:0 1px 2px rgba(0,0,0,.45),0 10px 28px rgba(0,0,0,.38);
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:"Outfit",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.6;margin:0;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding:0 16px}
+h1,h2,h3{margin:0;text-wrap:balance}
+h1{font-weight:800;font-size:clamp(2rem,6vw,3.2rem);line-height:1.08;letter-spacing:-.02em}
+h2{font-weight:800;font-size:clamp(1.5rem,4vw,2.1rem);line-height:1.15}
+h3{font-weight:600;font-size:1.15rem;line-height:1.3}
+p{margin:0 0 1em}
+a{color:var(--purple-ink)}
+:focus-visible{outline:3px solid var(--purple);outline-offset:3px;border-radius:8px}
+.lede{font-family:"Lora",Georgia,serif;font-size:clamp(1.05rem,2.4vw,1.25rem);color:var(--muted);max-width:40ch;margin:1rem auto 0}
+.eyebrow{font-size:.76rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--purple-ink);margin:0 0 .7rem}
+header{background:var(--surface);text-align:center;padding:36px 0 44px}
+.badge{display:inline-flex;align-items:center;gap:.55rem;background:var(--ground);border:1px solid var(--line);border-radius:999px;padding:.35rem .95rem .35rem .4rem;margin-bottom:1.2rem;text-decoration:none;color:var(--ink)}
+.badge img{width:34px;height:34px;border-radius:9px;display:block}
+.badge span{font-weight:600}
+.free{display:inline-block;background:var(--accent);color:#fff;font-weight:800;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:.45rem 1.6rem;font-size:clamp(1.3rem,4vw,1.7rem);margin-bottom:1.1rem;box-shadow:var(--shadow)}
+section{padding:clamp(40px,6vw,70px) 0}
+.kits{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.kit{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}
+.kit img{width:100%;height:auto;display:block;background:#FFF6ED}
+.kit .body{padding:18px 20px 22px;display:flex;flex-direction:column;gap:.5rem;flex:1}
+.kit p{color:var(--muted);margin:0}
+.age{font-size:.85rem;font-weight:600;color:var(--vert-texte)}
+.btn{margin-top:auto;display:block;text-align:center;background:var(--purple);color:#fff;text-decoration:none;font-weight:600;border-radius:14px;padding:.8rem 1rem}
+.btn:hover{background:var(--purple-ink)}
+.menthe{background:var(--menthe)}
+ol.steps{max-width:640px;margin:1.4rem auto 0;padding:0;list-style:none;counter-reset:s}
+ol.steps li{counter-increment:s;display:flex;gap:.9rem;align-items:flex-start;margin-bottom:.9rem}
+ol.steps li::before{content:counter(s);flex:none;width:2rem;height:2rem;border-radius:50%;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;font-weight:800;color:var(--purple-ink)}
+.center{text-align:center}
+.stores{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:1.3rem}
+.store{background:var(--ink);color:var(--ground);text-decoration:none;border-radius:14px;padding:.65rem 1.3rem;line-height:1.2;text-align:left;min-width:170px}
+.store small{display:block;font-size:.75rem;opacity:.8}
+.store b{font-size:1.1rem}
+footer{text-align:center;color:var(--muted);font-size:.9rem;padding:30px 0 40px}
+.lang{position:absolute;top:14px;right:16px;font-size:.9rem;font-weight:600;color:var(--purple-ink);text-decoration:none;background:var(--ground);border:1px solid var(--line);border-radius:999px;padding:.3rem .8rem}
+header{position:relative}
+@media (max-width:480px){.lang{position:static;display:inline-block;margin-bottom:1rem}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="lang" href="../imprimer/" hreflang="fr" lang="fr">🇫🇷 Version française</a>
+    <a class="badge" href="../"><img src="../images/icone.jpg" alt=""><span>My Motivation Board</span></a>
+    <div><span class="free">Free</span></div>
+    <h1>Printable motivation boards</h1>
+    <p class="lede">Three ready-to-print boards, with their routine and reward cards, to help your child aged 3 to 10 do things on their own.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="kits">
+      <article class="kit">
+        <img src="preview-1.jpg" alt="Motivation board with the little green monster and picture routine cards" width="796" height="560">
+        <div class="body">
+          <span class="age">Ages 3 to 7 · can't read yet</span>
+          <h3>The little monster board, picture cards</h3>
+          <p>The board, 53 picture cards (brushing teeth, getting dressed, tidying toys…) and 47 reward cards.</p>
+          <a class="btn" href="motivation-board-ages-3-7-picture-cards.pdf" download>Download the PDF</a>
+        </div>
+      </article>
+      <article class="kit">
+        <img src="preview-2.jpg" alt="Motivation board with the little green monster and written routine cards" width="796" height="560">
+        <div class="body">
+          <span class="age">Ages 3 to 7 · starting to read</span>
+          <h3>The little monster board, word cards</h3>
+          <p>The same board, 49 word cards for kids who can read, and 47 reward cards.</p>
+          <a class="btn" href="motivation-board-ages-3-7-word-cards.pdf" download>Download the PDF</a>
+        </div>
+      </article>
+      <article class="kit">
+        <img src="preview-3.jpg" alt="Motivation board with a trophy and written chore cards for older kids" width="796" height="560">
+        <div class="body">
+          <span class="age">Ages 7 to 10 · for older kids</span>
+          <h3>The trophy board, word cards</h3>
+          <p>A more grown-up board, 49 chore and routine cards, and 47 reward cards.</p>
+          <a class="btn" href="motivation-board-ages-7-10-trophy.pdf" download>Download the PDF</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="menthe">
+  <div class="wrap">
+    <p class="eyebrow center">How to use it</p>
+    <h2 class="center">Getting it ready</h2>
+    <ol class="steps">
+      <li>Print the board and the cards, on thick paper if you can.</li>
+      <li>Laminate them, then cut out the cards.</li>
+      <li>Stick a Velcro dot on each circle of the board and on the back of each card.</li>
+      <li>Choose 4 tasks and their rewards with your child, then put up the cards.</li>
+      <li>Each time they do it, tick a circle with a dry-erase marker. 5 ticks, and they get the reward!</li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="wrap center">
+    <p class="eyebrow">What about on a phone?</p>
+    <h2>The same board is also an app</h2>
+    <p class="lede">Missions, stars and rewards, on your phone and on theirs. Nothing to print, and they tick things off on their own. 7-day free trial.</p>
+    <div class="stores">
+      <a class="store" href="https://apps.apple.com/app/id6776383630"><small>iPhone and iPad</small><b>App Store</b></a>
+      <a class="store" href="https://play.google.com/store/apps/details?id=com.tdmotivation.app&amp;hl=en"><small>Android</small><b>Google Play</b></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>For personal or classroom use. Please share the link to this page rather than the files 💛</p>
+    <p><a href="../">My Motivation Board</a> · <a href="mailto:montableaudemotivation@gmail.com">montableaudemotivation@gmail.com</a></p>
+  </div>
+</footer>
+</body>
+</html>

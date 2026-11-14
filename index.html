@@ -572,6 +572,8 @@ footer a{color:var(--muted)}
     document.documentElement.dir = (code === 'ar') ? 'rtl' : 'ltr';
     if (TITRES[code]) document.title = TITRES[code];
     liensStores(code);
+    var imp = document.querySelector('a.imprimer-lien:not(.livre-lien)');
+    if (imp) imp.href = (code === 'fr') ? 'imprimer/' : 'printables/';
     if (select.value !== code) select.value = code;
     try { localStorage.setItem('tdm_langue', code); } catch (e) {}
   }
