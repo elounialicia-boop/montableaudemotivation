@@ -73,6 +73,15 @@ ol.steps li::before{content:counter(s);flex:none;width:2rem;height:2rem;border-r
 footer{text-align:center;color:var(--muted);font-size:.9rem;padding:30px 0 40px}
 .lang{position:absolute;top:14px;right:16px;font-size:.9rem;font-weight:600;color:var(--purple-ink);text-decoration:none;background:var(--ground);border:1px solid var(--line);border-radius:999px;padding:.3rem .8rem}
 header{position:relative}
+.lavande{background:var(--lavande)}
+.duo{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin:1.8rem 0 0;text-align:left}
+.duo article{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 22px}
+.duo .ico{font-size:1.8rem;line-height:1;display:block;margin-bottom:.6rem}
+.duo h3{margin-bottom:.45rem}
+.duo p{color:var(--muted);margin:0}
+.bientot{display:inline-block;vertical-align:middle;margin-left:.35rem;background:var(--accent);color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:.15rem .55rem}
+.note{color:var(--muted);font-size:.95rem;max-width:56ch;margin:1.4rem auto 0}
+.seul{margin:2.4rem auto 0;max-width:46ch}
 @media (max-width:480px){.lang{position:static;display:inline-block;margin-bottom:1rem}}
 </style>
 </head>
@@ -135,11 +144,30 @@ header{position:relative}
   </div>
 </section>
 
-<section>
+<section class="lavande">
   <div class="wrap center">
-    <p class="eyebrow">What about on a phone?</p>
-    <h2>The same board is also an app</h2>
-    <p class="lede">Missions, stars and rewards, on your phone and on theirs. Nothing to print, and they tick things off on their own. 7-day free trial.</p>
+    <p class="eyebrow">Paper and app, together</p>
+    <h2>The same board, on the wall and in the app</h2>
+    <p class="lede">The board stays on the wall where everyone can see it. The My Motivation Board app follows the same missions, the same rewards and the same 5 stars.</p>
+    <div class="duo">
+      <article>
+        <span class="ico" aria-hidden="true">🃏</span>
+        <h3>The same cards</h3>
+        <p>The 64 3D reward cards in these PDFs are also in the app. Your child finds on screen what they see on the wall.</p>
+      </article>
+      <article>
+        <span class="ico" aria-hidden="true">📋</span>
+        <h3>Paper board mode <span class="bientot">Coming soon</span></h3>
+        <p>For ages 3 to 7: each row of the board becomes a mission facing its reward in the app, with 5 stars just like the 5 circles. You copy your rows in a few seconds in “My board rows”.</p>
+      </article>
+      <article>
+        <span class="ico" aria-hidden="true">📸</span>
+        <h3>Scan my board <span class="bientot">Coming soon</span></h3>
+        <p>Take a photo of the board and the app recognises the cards by itself, the new ones as well as the ones you have already printed. It is being tested right now.</p>
+      </article>
+    </div>
+    <p class="note">Paper board mode for the trophy board, for ages 7 to 10, comes next.</p>
+    <p class="lede seul">Don't want to print? The app also works on its own, on your phone and on theirs. 7-day free trial.</p>
     <div class="stores">
       <a class="store" href="https://apps.apple.com/app/id6776383630"><small>iPhone and iPad</small><b>App Store</b></a>
       <a class="store" href="https://play.google.com/store/apps/details?id=com.tdmotivation.app&amp;hl=en"><small>Android</small><b>Google Play</b></a>

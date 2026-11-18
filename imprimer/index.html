@@ -73,6 +73,15 @@ ol.steps li::before{content:counter(s);flex:none;width:2rem;height:2rem;border-r
 footer{text-align:center;color:var(--muted);font-size:.9rem;padding:30px 0 40px}
 .lang{position:absolute;top:14px;right:16px;font-size:.9rem;font-weight:600;color:var(--purple-ink);text-decoration:none;background:var(--ground);border:1px solid var(--line);border-radius:999px;padding:.3rem .8rem}
 header{position:relative}
+.lavande{background:var(--lavande)}
+.duo{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin:1.8rem 0 0;text-align:left}
+.duo article{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 22px}
+.duo .ico{font-size:1.8rem;line-height:1;display:block;margin-bottom:.6rem}
+.duo h3{margin-bottom:.45rem}
+.duo p{color:var(--muted);margin:0}
+.bientot{display:inline-block;vertical-align:middle;margin-left:.35rem;background:var(--accent);color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:.15rem .55rem}
+.note{color:var(--muted);font-size:.95rem;max-width:56ch;margin:1.4rem auto 0}
+.seul{margin:2.4rem auto 0;max-width:46ch}
 @media (max-width:480px){.lang{position:static;display:inline-block;margin-bottom:1rem}}
 </style>
 </head>
@@ -135,11 +144,30 @@ header{position:relative}
   </div>
 </section>
 
-<section>
+<section class="lavande">
   <div class="wrap center">
-    <p class="eyebrow">Et sur téléphone ?</p>
-    <h2>Le même tableau existe en application</h2>
-    <p class="lede">Missions, étoiles et récompenses, sur votre téléphone et sur le sien. Rien à imprimer, et il coche tout seul. 7 jours d'essai gratuit.</p>
+    <p class="eyebrow">Le papier et l'appli, ensemble</p>
+    <h2>Le même tableau, au mur et dans l'appli</h2>
+    <p class="lede">Le tableau reste au mur, bien en vue. L'application Mon Tableau de Motivation suit les mêmes missions, les mêmes récompenses et les mêmes 5 étoiles.</p>
+    <div class="duo">
+      <article>
+        <span class="ico" aria-hidden="true">🃏</span>
+        <h3>Les mêmes cartes</h3>
+        <p>Les 64 cartes récompenses en 3D de ces PDF sont aussi dans l'appli. Votre enfant retrouve sur l'écran ce qu'il voit au mur.</p>
+      </article>
+      <article>
+        <span class="ico" aria-hidden="true">📋</span>
+        <h3>Le mode tableau papier <span class="bientot">Bientôt</span></h3>
+        <p>Pour les 3 à 7 ans : chaque ligne du tableau devient dans l'appli une mission face à sa récompense, avec 5 étoiles comme les 5 ronds. Vous recopiez vos lignes en quelques secondes dans « Mes lignes du tableau ».</p>
+      </article>
+      <article>
+        <span class="ico" aria-hidden="true">📸</span>
+        <h3>Scanner mon tableau <span class="bientot">Bientôt</span></h3>
+        <p>Vous prenez le tableau en photo et l'appli reconnaît les cartes toute seule, les nouvelles comme celles que vous avez déjà imprimées. Il est en test en ce moment.</p>
+      </article>
+    </div>
+    <p class="note">Le mode tableau papier du tableau trophée, pour les 7 à 10 ans, arrive ensuite.</p>
+    <p class="lede seul">Pas envie d'imprimer ? L'appli marche aussi toute seule, sur votre téléphone et sur le sien. 7 jours d'essai gratuit.</p>
     <div class="stores">
       <a class="store" href="https://apps.apple.com/fr/app/id6776383630"><small>iPhone et iPad</small><b>App Store</b></a>
       <a class="store" href="https://play.google.com/store/apps/details?id=com.tdmotivation.app&amp;hl=fr"><small>Android</small><b>Google Play</b></a>
