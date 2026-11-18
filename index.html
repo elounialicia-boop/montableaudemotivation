@@ -302,7 +302,7 @@ a.livre-bouton:hover{transform:translateY(-2px)}
       </a>
     </div>
     <a class="imprimer-lien" href="imprimer/" data-t="105">🖨️ Tableaux gratuits à imprimer</a>
-    <a class="imprimer-lien livre-lien" href="https://www.amazon.fr/dp/B0HQDW7CCL" target="_blank" rel="noopener" data-t="106">📖 Nouveau : le livre de Moty est disponible sur Amazon</a>
+    <a class="imprimer-lien livre-lien" href="#livres" data-t="106">📖 Les livres de Moty</a>
   </div>
 </header>
 
@@ -340,10 +340,7 @@ a.livre-bouton:hover{transform:translateY(-2px)}
         <p class="tome">Tome 2</p>
         <h3>Moty ne veut pas aller au lit</h3>
         <p>Il a soif, il veut un bisou… et s'il y avait un monstre sous son lit&nbsp;? Sous le lit, Moty découvre de toutes petites étoiles qui l'attendent pour partir au pays des rêves. Avec un tableau du soir à colorier à la fin du livre.</p>
-        <!-- TOME 2 : quand le lien Amazon existe, remplacer la ligne
-             « Bientôt disponible » ci-dessous par :
-             <a class="livre-bouton" href="https://www.amazon.fr/dp/XXXXXXXXXX" target="_blank" rel="noopener">📖 Voir sur Amazon</a> -->
-        <span class="livre-bouton bientot">🌙 Bientôt disponible</span>
+        <a class="livre-bouton" href="https://www.amazon.fr/dp/B0HS1BSY3W" target="_blank" rel="noopener">📖 Voir sur Amazon</a>
       </article>
     </div>
   </div>
@@ -627,6 +624,14 @@ a.livre-bouton:hover{transform:translateY(-2px)}
     liensStores(code);
     var livres = document.getElementById('livres');
     if (livres) livres.hidden = (code !== 'fr');
+    /* Bouton livres : en français il descend à la section « Les livres de Moty »
+       (les 2 tomes). Dans les autres langues la section est cachée, alors il
+       ouvre le tome 1 sur Amazon. */
+    var livreLien = document.querySelector('a.livre-lien');
+    if (livreLien) {
+      if (code === 'fr') { livreLien.href = '#livres'; livreLien.removeAttribute('target'); livreLien.removeAttribute('rel'); }
+      else { livreLien.href = 'https://www.amazon.fr/dp/B0HQDW7CCL'; livreLien.target = '_blank'; livreLien.rel = 'noopener'; }
+    }
     var imp = document.querySelector('a.imprimer-lien:not(.livre-lien)');
     if (imp) imp.href = (code === 'fr') ? 'imprimer/' : 'printables/';
     if (select.value !== code) select.value = code;
