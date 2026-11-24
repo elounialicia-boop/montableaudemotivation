@@ -234,7 +234,8 @@ footer a{color:var(--muted)}
 [dir="rtl"] .hint,[dir="rtl"] .eyebrow{letter-spacing:normal}
 
 /* ─────────── livres de Moty (version française seulement) ─────────── */
-.livres{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:2rem}
+.livres{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:2rem}
+@media (max-width:900px){.livres{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:640px){.livres{grid-template-columns:1fr}}
 .livre{
   background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
@@ -342,6 +343,14 @@ a.livre-bouton:hover{transform:translateY(-2px)}
         <h3>Moty ne veut pas aller au lit</h3>
         <p>Il a soif, il veut un bisou… et s'il y avait un monstre sous son lit&nbsp;? Sous le lit, Moty découvre de toutes petites étoiles qui l'attendent pour partir au pays des rêves. Avec un tableau du soir à colorier à la fin du livre.</p>
         <a class="livre-bouton" href="https://www.amazon.fr/dp/B0HS1BSY3W" target="_blank" rel="noopener" data-goatcounter-click="amazon-tome2-accueil">📖 Voir sur Amazon</a>
+      </article>
+      <article class="livre">
+        <img src="images/livre-moty-3.jpg" alt="Couverture du livre « Moty ne veut pas ranger ses jouets » : Moty, bras croisés, boude au milieu de jouets éparpillés." loading="lazy" width="600" height="600">
+        <p class="tome">Tome 3</p>
+        <h3>Moty ne veut pas ranger ses jouets</h3>
+        <p>Des jouets partout, et Moty ne veut pas ranger&nbsp;! Mais ses jouets ne retrouvent plus leur maison. Avec son chapeau de capitaine, Moty ramène chaque jouet chez lui. Avec un tableau à colorier à la fin du livre.</p>
+        <p class="prix">9,99&nbsp;€ · livre broché</p>
+        <a class="livre-bouton" href="https://www.amazon.fr/dp/B0HSS6S3YP" target="_blank" rel="noopener" data-goatcounter-click="amazon-tome3-accueil">📖 Voir sur Amazon</a>
       </article>
     </div>
   </div>
