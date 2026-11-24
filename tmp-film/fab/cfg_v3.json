@@ -1,0 +1,358 @@
+{
+"shots": [
+{
+"img": "plan1.jpg",
+"dur": 3.0,
+"z0": 1.0,
+"z1": 1.03,
+"c0": [
+0.5,
+0.5
+],
+"c1": [
+0.5,
+0.5
+],
+"texts": [
+[
+0.0,
+2.95,
+"10 fois la même phrase, chaque matin ?",
+1450
+]
+],
+"clip": "mum.mp4"
+},
+{
+"img": "plan2.jpg",
+"dur": 2.8,
+"z0": 1.0,
+"z1": 1.03,
+"c0": [
+0.5,
+0.5
+],
+"c1": [
+0.5,
+0.5
+],
+"trans": "whip",
+"texts": [
+[
+0.1,
+2.75,
+"Dents, habits, cartable… la course !",
+1480
+]
+],
+"clip": "moty-clip-chaos.mp4"
+},
+{
+"img": "plan3.jpg",
+"dur": 4.0,
+"z0": 1.0,
+"z1": 1.03,
+"c0": [
+0.5,
+0.5
+],
+"c1": [
+0.5,
+0.5
+],
+"trans": "zoom",
+"punch": true,
+"voice": "moty1.mp3",
+"voice_at": 0.3,
+"texts": [
+[
+0.35,
+3.9,
+"Salut ! Moi, c'est Moty !",
+430,
+"bubble"
+]
+],
+"clip": "h_a.mp4"
+},
+{
+"img": "plan4.jpg",
+"dur": 5.0,
+"z0": 1.0,
+"z1": 1.45,
+"c0": [
+0.45,
+0.5
+],
+"c1": [
+0.57,
+0.5
+],
+"trans": "cut",
+"voice": "moty2.mp3",
+"voice_at": 0.3,
+"mouth": [
+205,
+650,
+330,
+750
+],
+"screens": [
+[
+0,
+99,
+"missions.png",
+[
+[
+403,
+556
+],
+[
+582,
+550
+],
+[
+615,
+846
+],
+[
+430,
+863
+]
+],
+[
+505,
+690,
+615,
+800
+]
+]
+],
+"texts": [
+[
+0.35,
+4.9,
+"Regarde ! Ses missions du matin, en images !",
+330,
+"bubble"
+]
+]
+},
+{
+"img": "plan5.jpg",
+"dur": 4.0,
+"z0": 1.0,
+"z1": 1.03,
+"c0": [
+0.5,
+0.5
+],
+"c1": [
+0.5,
+0.5
+],
+"trans": "whip",
+"voice": "moty3.mp3",
+"voice_at": 0.3,
+"texts": [
+[
+0.35,
+3.0,
+"Allez, tu es capable, tout seul !",
+360,
+"bubble"
+],
+[
+3.0,
+3.95,
+"Tout seul. Sans cris.",
+1480
+]
+],
+"clip": "h_c.mp4"
+},
+{
+"img": "plan6.jpg",
+"dur": 4.4,
+"z0": 1.0,
+"z1": 1.03,
+"c0": [
+0.5,
+0.5
+],
+"c1": [
+0.5,
+0.5
+],
+"trans": "cut",
+"punch": true,
+"flash": 0.35,
+"starfx": 0.3,
+"starxy": [
+330,
+900
+],
+"voice": "moty4.mp3",
+"voice_at": 0.3,
+"texts": [
+[
+0.35,
+4.3,
+"Bravo ! Une mission, une étoile !",
+330,
+"bubble"
+]
+],
+"clip": "h_b.mp4"
+},
+{
+"img": "plan4.jpg",
+"dur": 4.6,
+"z0": 1.3,
+"z1": 1.42,
+"c0": [
+0.58,
+0.5
+],
+"c1": [
+0.58,
+0.5
+],
+"trans": "zoom",
+"voice": "moty5.mp3",
+"voice_at": 0.2,
+"screens": [
+[
+0,
+1.6,
+"bravo.png",
+[
+[
+403,
+556
+],
+[
+582,
+550
+],
+[
+615,
+846
+],
+[
+430,
+863
+]
+],
+[
+505,
+690,
+615,
+800
+]
+],
+[
+1.6,
+99,
+"recompense.png",
+[
+[
+403,
+556
+],
+[
+582,
+550
+],
+[
+615,
+846
+],
+[
+430,
+863
+]
+],
+[
+505,
+690,
+615,
+800
+]
+]
+],
+"texts": [
+[
+0.2,
+1.9,
+"1 mission = 1 étoile",
+330
+],
+[
+2.0,
+4.5,
+"Ses étoiles = sa récompense !",
+330
+]
+]
+},
+{
+"img": "plan7b.jpg",
+"dur": 4.2,
+"z0": 1.0,
+"z1": 1.12,
+"c0": [
+0.45,
+0.45
+],
+"c1": [
+0.42,
+0.42
+],
+"trans": "fadewhite",
+"pip": [
+0.8,
+"points.png",
+1480,
+330
+],
+"texts": [
+[
+0.3,
+4.1,
+"Toi, tu suis tout. Et tu souffles.",
+300
+]
+]
+},
+{
+"img": "plan8.jpg",
+"dur": 5.4,
+"z0": 1.0,
+"z1": 1.03,
+"c0": [
+0.5,
+0.5
+],
+"c1": [
+0.5,
+0.5
+],
+"trans": "whip",
+"voice": "moty6b.mp3",
+"voice_at": 0.3,
+"cta": 1.2,
+"cta_y": 300,
+"texts": [
+[
+0.35,
+4.6,
+"À demain matin !",
+620,
+"bubble"
+]
+],
+"clip": "h_d.mp4"
+}
+]
+}
