@@ -15,7 +15,7 @@ URLS = {
 for n,u in URLS.items():
     if not os.path.exists('clips/'+n): urllib.request.urlretrieve(u,'clips/'+n)
 shutil.copy(os.path.join(DL,'moty-clip-chaos.mp4'),'clips/moty-clip-chaos.mp4')
-env = dict(os.environ, IMG=ROOT+os.sep, SCR=os.path.join(ROOT,'ecrans')+os.sep, CLIPS='clips'+os.sep,
+env = dict(os.environ, PYTHONUTF8='1', IMG=ROOT+os.sep, SCR=os.path.join(ROOT,'ecrans')+os.sep, CLIPS='clips'+os.sep,
            VOIX=os.path.join(DL,'Film Moty','voix')+os.sep, FONT='fredoka-700.ttf')
 subprocess.run([sys.executable,'montage.py','cfg_v3.json','film_v3'],env=env,check=True)
 out=os.path.join(DL,'Film Moty'); os.makedirs(out,exist_ok=True)

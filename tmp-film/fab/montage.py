@@ -7,7 +7,7 @@ IMG=os.environ.get('IMG','/mnt/project-files/film-moty/images/'); SCR=os.environ
 VOIX=os.environ.get('VOIX','voix/')
 FONT=os.environ.get('FONT','fredoka-700.ttf')
 GREEN=(124,194,66); ORANGE=(242,140,40); CREAM=(255,246,229); DARK=(30,58,30)
-cfg=json.load(open(sys.argv[1])); FMT=os.environ.get('FMT','9x16')
+cfg=json.load(open(sys.argv[1],encoding='utf-8')); FMT=os.environ.get('FMT','9x16')
 
 def audio_env(mp3):
     raw=subprocess.run(['ffmpeg','-v','quiet','-i',mp3,'-ac','1','-ar','16000','-f','s16le','-'],capture_output=True).stdout
