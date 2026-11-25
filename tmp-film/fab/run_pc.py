@@ -31,11 +31,11 @@ if any(not os.path.exists(os.path.join(VX,f)) for f in LINES):
         if not os.path.exists(os.path.join(VX,f)):
             asyncio.run(edge_tts.Communicate(txt,'fr-FR-EloiseNeural',rate='+5%',pitch='+8Hz').save(os.path.join(VX,f)))
             print('voix creee',f)
-subprocess.run([sys.executable,'montage.py','cfg_v5.json','film_v5'],env=env,check=True)
+subprocess.run([sys.executable,'montage.py','cfg_v5.json','film_v7'],env=env,check=True)
 out=os.path.join(DL,'Film Moty'); os.makedirs(out,exist_ok=True)
-v=os.path.join(out,'Film Moty V5 - vertical 9x16.mp4'); shutil.copy('film_v5.mp4',v)
-h=os.path.join(out,'Film Moty V5 - horizontal 16x9.mp4')
-subprocess.run(['ffmpeg','-y','-v','error','-i','film_v5.mp4','-filter_complex',
+v=os.path.join(out,'Film Moty V7 - vertical 9x16.mp4'); shutil.copy('film_v7.mp4',v)
+h=os.path.join(out,'Film Moty V7 - horizontal 16x9.mp4')
+subprocess.run(['ffmpeg','-y','-v','error','-i','film_v7.mp4','-filter_complex',
  '[0:v]scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,gblur=sigma=30,eq=brightness=-0.08[bg];[0:v]scale=-2:1080[fg];[bg][fg]overlay=(W-w)/2:0',
  '-c:v','libx264','-crf','19','-preset','medium','-pix_fmt','yuv420p','-c:a','copy','-movflags','+faststart',h],check=True)
 print('OK', v, h)
