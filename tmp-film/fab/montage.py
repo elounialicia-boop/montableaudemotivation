@@ -7,7 +7,7 @@ IMG=os.environ.get('IMG','/mnt/project-files/film-moty/images/'); SCR=os.environ
 VOIX=os.environ.get('VOIX','voix/')
 FONT=os.environ.get('FONT','fredoka-700.ttf')
 GREEN=(124,194,66); ORANGE=(242,140,40); CREAM=(255,246,229); DARK=(30,58,30)
-cfg=json.load(open(sys.argv[1],encoding='utf-8')); FMT=os.environ.get('FMT','9x16')
+cfg=json.load(open(sys.argv[1],encoding='utf-8')); cfps=24; FMT=os.environ.get('FMT','9x16')
 
 def audio_env(mp3):
     raw=subprocess.run(['ffmpeg','-v','quiet','-i',mp3,'-ac','1','-ar','16000','-f','s16le','-'],capture_output=True).stdout
@@ -19,14 +19,16 @@ def audio_env(mp3):
     for i in range(1,len(e)): sm[i]=sm[i-1]+(0.6 if e[i]>sm[i-1] else 0.25)*(e[i]-sm[i-1])
     e=sm/(sm.max()+1e-9); return e, len(a)/16000
 
-def text_img(txt, size=72, maxw=700):
+def text_img(txt, size=72, maxw=980):
     txt=txt.replace(' !','\u00a0!').replace(' ?','\u00a0?')
-    f=ImageFont.truetype(FONT,size); words=txt.split(' '); lines=[]; cur=''
-    for w_ in words:
-        t=(cur+' '+w_).strip()
-        if f.getlength(t)>maxw-80 and cur: lines.append(cur); cur=w_
-        else: cur=t
-    lines.append(cur)
+    f=ImageFont.truetype(FONT,size); lines=[]
+    for para in txt.split('\n'):
+        cur=''
+        for w_ in para.split(' '):
+            t=(cur+' '+w_).strip()
+            if f.getlength(t)>maxw-80 and cur: lines.append(cur); cur=w_
+            else: cur=t
+        lines.append(cur)
     lh=int(size*1.2); tw=int(max(f.getlength(l) for l in lines))+80; th=lh*len(lines)+50
     im=Image.new('RGBA',(tw+20,th+20),(0,0,0,0)); d=ImageDraw.Draw(im)
     d.rounded_rectangle((10+6,10+8,tw+10+6,th+10+8),radius=34,fill=(*DARK,90))
@@ -39,12 +41,14 @@ def text_img(txt, size=72, maxw=700):
 
 def bubble_img(txt,size=64,maxw=760):
     txt=txt.replace(' !','\u00a0!').replace(' ?','\u00a0?')
-    f=ImageFont.truetype(FONT,size); words=txt.split(' '); lines=[]; cur=''
-    for w_ in words:
-        t=(cur+' '+w_).strip()
-        if f.getlength(t)>maxw-70 and cur: lines.append(cur); cur=w_
-        else: cur=t
-    lines.append(cur)
+    f=ImageFont.truetype(FONT,size); lines=[]
+    for para in txt.split('\n'):
+        cur=''
+        for w_ in para.split(' '):
+            t=(cur+' '+w_).strip()
+            if f.getlength(t)>maxw-70 and cur: lines.append(cur); cur=w_
+            else: cur=t
+        lines.append(cur)
     lh=int(size*1.2); tw=int(max(f.getlength(l) for l in lines))+70; th=lh*len(lines)+44
     im=Image.new('RGBA',(tw+20,th+60),(0,0,0,0)); d=ImageDraw.Draw(im)
     d.rounded_rectangle((10,10,tw+10,th+10),radius=40,fill=(255,255,255,245),outline=(*GREEN,255),width=6)
@@ -76,12 +80,76 @@ def camera(src, z, cx, cy, w=W, h=H):
     M=np.float32([[s,0,tx],[0,s,ty]])
     return cv2.warpAffine(src,M,(w,h),flags=cv2.INTER_LINEAR,borderMode=cv2.BORDER_REFLECT)
 
+
+APPC={}
+def app_screen(f, w):
+    k=(f,w)
+    if k not in APPC:
+        im=Image.open(SCR+f).convert('RGB').crop((370,120,1680,2732))
+        h=int(w*im.height/im.width); APPC[k]=im.resize((w,h),Image.LANCZOS)
+    return APPC[k]
+def ease(x): x=max(0,min(1,x)); return 1-(1-x)**3
+def appdemo(s, t, clipf, cfps, bgsrc):
+    # background: blurred plan, slow zoom, darkened
+    p=t/s['dur']; fr=camera(bgsrc,1.04+0.12*p,0.5,0.5)
+    canvas=Image.fromarray(cv2.cvtColor(fr,cv2.COLOR_BGR2RGB)).convert('RGBA')
+    PW=s.get('pw',560); scr=None; seq=s['app']
+    cur=[x for x in seq if x[0]<=t][-1]; idx=seq.index(cur)
+    img=app_screen(cur[1],PW)
+    if idx>0 and t-cur[0]<0.3:   # slide transition from previous screen
+        q=ease((t-cur[0])/0.3); prev=app_screen(seq[idx-1][1],PW)
+        comp=Image.new('RGB',img.size,(255,255,255)); comp.paste(prev,(int(-PW*q),0)); comp.paste(img,(int(PW*(1-q)),0)); img=comp
+    PH=img.height; BZ=26
+    phone=Image.new('RGBA',(PW+2*BZ,PH+2*BZ),(0,0,0,0)); d=ImageDraw.Draw(phone)
+    d.rounded_rectangle((0,0,PW+2*BZ-1,PH+2*BZ-1),radius=80,fill=(22,22,28,255))
+    m=Image.new('L',(PW,PH),0); ImageDraw.Draw(m).rounded_rectangle((0,0,PW-1,PH-1),radius=58,fill=255)
+    phone.paste(img,(BZ,BZ),m)
+    d=ImageDraw.Draw(phone)
+    # check badges on done missions
+    for (tt,x,y) in s.get('checks',[]):
+        if t>=tt:
+            q=min(1,(t-tt)/0.25); r=int(46*pop(q)); cx_,cy_=BZ+x*PW,BZ+y*PH
+            d.ellipse((cx_-r,cy_-r,cx_+r,cy_+r),fill=(76,175,80,255),outline=(255,255,255,255),width=6)
+            if r>20: d.line([(cx_-r*0.45,cy_),(cx_-r*0.1,cy_+r*0.35),(cx_+r*0.5,cy_-r*0.35)],fill=(255,255,255,255),width=10)
+    # taps (finger ripple)
+    for (tt,x,y) in s.get('taps',[]):
+        dt=t-tt
+        if -0.35<=dt<0.45:
+            cx_,cy_=BZ+x*PW,BZ+y*PH
+            if dt<0: a_=int(200*(1+dt/0.35)); r=40
+            else: a_=int(200*(1-dt/0.45)); r=40+dt*160
+            d.ellipse((cx_-r,cy_-r,cx_+r,cy_+r),outline=(255,255,255,max(0,a_)),width=8)
+            if dt<0.15: d.ellipse((cx_-30,cy_-30,cx_+30,cy_+30),fill=(255,255,255,150))
+    ent=ease(t/0.45) if s.get('phone_in',True) else 1
+    sc_=0.95+0.08*p
+    py=s.get('phone_y',1060)+(1-ent)*900
+    paste(canvas,phone,W/2,py,sc_)
+    # Moty talking bubble (circle cut from a talking clip)
+    va=s.get('voice_at',0.15); ve=s.get('_ve',s['dur'])
+    if clipf is not None and va<=t<ve+0.2:
+        n=len(clipf); k=int(t*cfps); k=k%(2*n-2) if n>1 else 0; k=k if k<n else 2*n-2-k   # ping-pong
+        f_=clipf[k]; hh,ww=f_.shape[:2]; cxn,cyn,dn=s.get('moty_crop',[0.52,0.54,0.5])
+        D=int(dn*ww); x0=int(cxn*ww-D/2); y0=int(cyn*hh-D/2)
+        x0=max(0,min(ww-D,x0)); y0=max(0,min(hh-D,y0))
+        crop=cv2.cvtColor(f_[y0:y0+D,x0:x0+D],cv2.COLOR_BGR2RGB); DS=s.get('moty_d',290)
+        face=Image.fromarray(crop).resize((DS,DS),Image.LANCZOS)
+        circ=Image.new('RGBA',(DS+24,DS+24),(0,0,0,0)); dd=ImageDraw.Draw(circ)
+        dd.ellipse((0,0,DS+23,DS+23),fill=(*GREEN,255)); mm=Image.new('L',(DS,DS),0); ImageDraw.Draw(mm).ellipse((0,0,DS-1,DS-1),fill=255)
+        circ.paste(face,(12,12),mm)
+        q=min(1,(t-va)/0.3); mx,my=s.get('moty_xy',[175,1500])
+        scl=pop(q) if t<ve else 1-ease((t-ve)/0.2)
+        paste(canvas,circ,mx,my,scl)
+    return canvas
+
 shots=cfg['shots']; frames_total=sum(int(s['dur']*FPS) for s in shots)
 out=sys.argv[2]
 ff=subprocess.Popen(['ffmpeg','-y','-v','error','-f','rawvideo','-pix_fmt','bgr24','-s',f'{W}x{H}','-r',str(FPS),'-i','-','-c:v','libx264','-crf','18','-preset','medium','-pix_fmt','yuv420p',out+'_v.mp4'],stdin=subprocess.PIPE)
 audio_events=[]; t0=0.0; prev_last=None
 for si,s in enumerate(shots):
     base=cv2.imread(IMG+s['img']) if s.get('img') else None
+    bgsrc=None
+    if s.get('app'):
+        bgsrc=cv2.GaussianBlur(cover(base,W,H),(0,0),18); bgsrc=(bgsrc*0.72).astype(np.uint8)
     clipf=None
     if s.get('clip'):
         cap=cv2.VideoCapture(CLIPS+s['clip']); clipf=[]; cfps=cap.get(cv2.CAP_PROP_FPS) or 24
@@ -91,24 +159,27 @@ for si,s in enumerate(shots):
             clipf.append(fr_)
         cap.release()
         cst=s.get('clip_start',0.0); avail=len(clipf)/cfps-cst
-        cspeed=s.get('clip_speed', min(1.0, avail/s['dur']))
-    for sc in s.get('screens',[]):  # static screen inlays (first one); switching handled per-frame
-        pass
-    n=int(s['dur']*FPS)
     # voice
     env=None
     if s.get('voice'):
         vs=s.get('voice_at',0.25)
         env,dur=audio_env(VOIX+s['voice']); audio_events.append((t0+vs,VOIX+s['voice']))
+        idx=np.where(env>0.08)[0]; s['_ve']=vs+(idx[-1]+1)/FPS
+        if s.get('auto_dur') is not None: s['dur']=round(s['_ve']+s['auto_dur'],3)
+        print('shot',si,'voice_end',round(s['_ve'],2),'dur',s['dur'])
         tag=f"m{si}"
         if s.get('mouth'): plates(IMG+s['img'],tuple(s['mouth']),tag)
+    if clipf is not None:
+        cspeed=s.get('clip_speed', min(1.0, avail/s['dur']))
+        if not s.get('app') and s.get('voice') and avail/cspeed < s['_ve']: print('WARN clip shorter than voice', si)
+    n=int(s['dur']*FPS)
     if s.get('voice2'):
         env2,_=audio_env(VOIX+s['voice2']); audio_events.append((t0+s['voice2_at'],VOIX+s['voice2']))
     caption_cache={}
     for i in range(n):
         t=i/FPS
         img=base
-        if clipf is not None:
+        if clipf is not None and not s.get('app'):
             img=clipf[min(len(clipf)-1,int((cst+t*cspeed)*cfps))]
         if env is not None:
             a=0.0; k=int((t-s.get('voice_at',0.25))*FPS)
@@ -126,11 +197,14 @@ for si,s in enumerate(shots):
                 key=sc[2]
                 shot=caption_cache.setdefault(key,cv2.imread(SCR+sc[2]))
                 img=put_screen(img,shot,sc[3],tuple(sc[4]) if sc[4] else None)
-        src=cover(img,W,H) if i==0 or True else src
+        src=cover(img,W,H) if not s.get('app') or i==0 else src
         p=t/s['dur']; e=p*p*(3-2*p)
         z=s['z0']+(s['z1']-s['z0'])*e; cx=s['c0'][0]+(s['c1'][0]-s['c0'][0])*e; cy=s['c0'][1]+(s['c1'][1]-s['c0'][1])*e
         if s.get('punch') and t<0.5: z*=1+0.12*math.sin(t/0.5*math.pi/2)
         fr=camera(src,z,cx,cy)
+        if s.get('sharpen'): fr=cv2.addWeighted(fr,1.4,cv2.GaussianBlur(fr,(0,0),2),-0.4,0)
+        if s.get('app'):
+            fr=cv2.cvtColor(np.array(appdemo(s,t,clipf,cfps,bgsrc).convert('RGB')),cv2.COLOR_RGB2BGR)
         # transition in: whip from previous last frame
         tr=s.get('trans','cut'); TD=0.25
         if prev_last is not None and t<TD and tr!='cut':
@@ -150,6 +224,7 @@ for si,s in enumerate(shots):
         canvas=Image.fromarray(cv2.cvtColor(fr,cv2.COLOR_BGR2RGB)).convert('RGBA')
         for ov in s.get('texts',[]):
             st,en,txt,y=ov[0],ov[1],ov[2],ov[3]; kind=ov[4] if len(ov)>4 else 'banner'
+            if en<0: en=s['dur']+en
             if st<=t<en:
                 im=caption_cache.get(('t',txt,kind))
                 if im is None: im=text_img(txt) if kind=='banner' else bubble_img(txt); caption_cache[('t',txt,kind)]=im
@@ -180,16 +255,16 @@ for si,s in enumerate(shots):
             q=min(1,(t-s['pip'][0])/0.45); q=1-(1-q)**3
             x=W+ph.width/2-(ph.width+40)*q*1.0 - 0
             paste(canvas,ph.rotate(-6,expand=True,resample=Image.BICUBIC),W/2+110+ (1-q)*700, s['pip'][2])
-        if s.get('cta') and t>=s['cta']:
-            q=min(1,(t-s['cta'])/0.35)
+        if s.get('cta') is not None and t>=s['cta']:
+            q=1 if s.get('cta_static') else min(1,(t-s['cta'])/0.35)
             logo=caption_cache.get('logo')
             if logo is None:
                 logo=Image.new('RGBA',(900,420),(0,0,0,0)); d=ImageDraw.Draw(logo)
-                f1=ImageFont.truetype(FONT,104); f2=ImageFont.truetype(FONT,52)
+                f1=ImageFont.truetype(FONT,104); f2=ImageFont.truetype(FONT,60)
                 for i,ln in enumerate(['Mon tableau','de motivation']):
                     tw=f1.getlength(ln); d.text(((900-tw)/2,6+i*118),ln,font=f1,fill=(*GREEN,255),stroke_width=8,stroke_fill=(255,255,255,255))
-                l2='App Store  ·  Google Play'; d.rounded_rectangle((90,290,810,390),radius=50,fill=(*ORANGE,255))
-                d.text(((900-f2.getlength(l2))/2,308),l2,font=f2,fill=(255,255,255))
+                l2='App Store  ·  Google Play'; d.rounded_rectangle((50,282,850,402),radius=60,fill=(*ORANGE,255))
+                d.text(((900-f2.getlength(l2))/2,304),l2,font=f2,fill=(255,255,255))
                 caption_cache['logo']=logo
             paste(canvas,logo,W/2,s.get('cta_y',330),pop(q),min(1,q*2))
         fr=cv2.cvtColor(np.array(canvas.convert('RGB')),cv2.COLOR_RGB2BGR)
