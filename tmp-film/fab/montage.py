@@ -131,7 +131,7 @@ def appdemo(s, t, clipf, cfps, bgsrc):
     # Moty talking bubble (circle cut from a talking clip)
     va=s.get('voice_at',0.15); ve=s.get('_ve',s['dur'])
     if clipf is not None and va<=t<ve+0.2:
-        n=len(clipf); k=int(t*cfps); k=k%(2*n-2) if n>1 else 0; k=k if k<n else 2*n-2-k   # ping-pong
+        n=len(clipf); k=int(min(t,s.get('_ve',99))*cfps); k=k%(2*n-2) if n>1 else 0; k=k if k<n else 2*n-2-k   # ping-pong
         f_=clipf[k]; hh,ww=f_.shape[:2]; cxn,cyn,dn=s.get('moty_crop',[0.52,0.54,0.5])
         D=int(dn*ww); x0=int(cxn*ww-D/2); y0=int(cyn*hh-D/2)
         x0=max(0,min(ww-D,x0)); y0=max(0,min(hh-D,y0))
@@ -149,6 +149,39 @@ shots=cfg['shots']; frames_total=sum(int(s['dur']*FPS) for s in shots)
 out=sys.argv[2]
 ff=subprocess.Popen(['ffmpeg','-y','-v','error','-f','rawvideo','-pix_fmt','bgr24','-s',f'{W}x{H}','-r',str(FPS),'-i','-','-c:v','libx264','-crf','18','-preset','medium','-pix_fmt','yuv420p',out+'_v.mp4'],stdin=subprocess.PIPE)
 audio_events=[]; t0=0.0; prev_last=None; last_ve_abs=None
+import wave
+SFXD=os.path.join(CLIPS,'sfx'); os.makedirs(SFXD,exist_ok=True); SR=44100
+def _w(name,x,peak):
+    x=x/(np.abs(x).max()+1e-9)*peak; fn=os.path.join(SFXD,name+'.wav')
+    with wave.open(fn,'wb') as w: w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR); w.writeframes((x*32767).astype(np.int16).tobytes())
+    return fn
+def _t(d): return np.arange(int(SR*d))/SR
+def make_sfx():
+    r=np.random.default_rng(3); S={}
+    t=_t(0.3); f=300+2700*(t/0.3)**1.5; n=r.standard_normal(len(t)); sw=np.sin(2*np.pi*np.cumsum(f)/SR)
+    env=np.sin(np.pi*t/0.3)**2; S['whoosh']=_w('whoosh',np.convolve(n*sw,np.ones(6)/6,'same')*env,0.16)
+    t=_t(0.08); f=500+600*t/0.08; S['pop']=_w('pop',np.sin(2*np.pi*np.cumsum(f)/SR)*np.exp(-t/0.025),0.22)
+    t=_t(0.02); S['tick']=_w('tick',np.sin(2*np.pi*2000*t)*np.exp(-t/0.004),0.22)
+    t=_t(0.7); S['ding']=_w('ding',(np.sin(2*np.pi*1568*t)+0.7*np.sin(2*np.pi*2093*t))*np.exp(-t/0.18),0.2)
+    t=_t(0.5); x=np.zeros(len(t))
+    for k in range(7):
+        st=int(r.uniform(0,0.42)*SR); tt=_t(0.05); fr=r.uniform(2200,5000)
+        x[st:st+len(tt)]+=np.sin(2*np.pi*fr*tt)*np.exp(-tt/0.015)
+    S['sparkle']=_w('sparkle',x,0.16)
+    t=_t(0.32); f=180+240*t/0.32+20*np.sin(2*np.pi*8*t); S['boing']=_w('boing',np.sin(2*np.pi*np.cumsum(f)/SR)*np.exp(-t/0.15),0.2)
+    return S
+SFX=make_sfx()
+def add_sfx(s,t0):
+    ev=[]
+    if s.get('trans')=='whip': ev.append((0.0,'whoosh'))
+    for ov in s.get('texts',[]): ev.append((ov[0]+0.02,'pop'))
+    for tp in s.get('taps',[]): ev.append((tp[0],'tick'))
+    for ck in s.get('checks',[]): ev.append((ck[0],'ding'))
+    if s.get('starfx') is not None: ev.append((s['starfx'],'sparkle'))
+    if s.get('cta') is not None: ev+= [(s['cta'],'sparkle'),(s['cta']+0.05,'ding')]
+    ev+= [(a,b) for a,b in s.get('sfx',[])]
+    for a,b in ev:
+        if a<s['dur']: audio_events.append((t0+max(0,a),SFX[b]))
 for si,s in enumerate(shots):
     base=cv2.imread(IMG+s['img']) if s.get('img') else None
     bgsrc=None
@@ -180,6 +213,7 @@ for si,s in enumerate(shots):
         cspeed=s.get('clip_speed', min(1.0, avail/s['dur']))
         if not s.get('app') and s.get('voice') and avail/cspeed < s['_ve']: print('WARN clip shorter than voice', si)
     n=int(s['dur']*FPS)
+    add_sfx(s,t0)
     if s.get('voice2'):
         env2,_=audio_env(VOIX+s['voice2']); audio_events.append((t0+s['voice2_at'],VOIX+s['voice2']))
     caption_cache={}
@@ -187,7 +221,7 @@ for si,s in enumerate(shots):
         t=i/FPS
         img=base
         if clipf is not None and not s.get('app'):
-            img=clipf[min(len(clipf)-1,int((cst+t*cspeed)*cfps))]
+            img=clipf[min(len(clipf)-1,int((cst+min(t,s.get('_ve',99))*cspeed)*cfps))]
         if env is not None:
             a=0.0; k=int((t-s.get('voice_at',0.25))*FPS)
             if 0<=k<len(env): a=env[k]
@@ -274,6 +308,15 @@ for si,s in enumerate(shots):
                 d.text(((900-f2.getlength(l2))/2,304),l2,font=f2,fill=(255,255,255))
                 caption_cache['logo']=logo
             paste(canvas,logo,W/2,s.get('cta_y',330),pop(q),min(1,q*2))
+        if s.get('badge') and t>=s['badge'][0]:
+            b=caption_cache.get('badge')
+            if b is None:
+                fb=ImageFont.truetype(FONT,58); tx=s['badge'][1]; tw=int(fb.getlength(tx))
+                b=Image.new('RGBA',(tw+90,110),(0,0,0,0)); d=ImageDraw.Draw(b)
+                d.rounded_rectangle((0,0,tw+89,109),radius=55,fill=(*ORANGE,255),outline=(255,255,255,255),width=6)
+                d.text((45,18),tx,font=fb,fill=(255,255,255)); caption_cache['badge']=b
+            q=min(1,(t-s['badge'][0])/0.25); sc=pop(q)*(1+0.05*math.sin(2*math.pi*1.2*max(0,t-s['badge'][0]-0.3)))
+            paste(canvas,b,W/2,s['badge'][2],sc)
         fr=cv2.cvtColor(np.array(canvas.convert('RGB')),cv2.COLOR_RGB2BGR)
         ff.stdin.write(fr.tobytes())
     prev_last=fr; t0+=n/FPS
@@ -284,7 +327,7 @@ inputs=[];flt=[]
 for k,(at,f) in enumerate(audio_events):
     inputs+=['-i',f]; flt.append(f'[{k+1}:a]adelay={int(at*1000)}|{int(at*1000)}[a{k}]')
 if audio_events:
-    mix=''.join(f'[a{k}]' for k in range(len(audio_events)))+f'amix=inputs={len(audio_events)}:normalize=0,apad,atrim=0:{total},loudnorm=I=-14:TP=-1.5:LRA=11,aresample=48000[aout]'
+    mix=''.join(f'[a{k}]' for k in range(len(audio_events)))+f'amix=inputs={len(audio_events)}:normalize=0,apad,atrim=0:{total},loudnorm=I=-16:TP=-1.5:LRA=11,aresample=48000[aout]'
     subprocess.run(['ffmpeg','-y','-v','error','-i',out+'_v.mp4',*inputs,'-filter_complex',';'.join(flt+[mix]),'-map','0:v','-map','[aout]','-c:v','copy','-ac','2','-c:a','aac','-b:a','160k','-movflags','+faststart',out+'.mp4'],check=True)
 else:
     subprocess.run(['ffmpeg','-y','-v','error','-i',out+'_v.mp4','-f','lavfi','-i','anullsrc=r=44100:cl=stereo','-shortest','-c:v','copy','-c:a','aac',out+'.mp4'],check=True)
