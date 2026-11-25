@@ -278,7 +278,7 @@ for k,(at,f) in enumerate(audio_events):
     inputs+=['-i',f]; flt.append(f'[{k+1}:a]adelay={int(at*1000)}|{int(at*1000)}[a{k}]')
 if audio_events:
     mix=''.join(f'[a{k}]' for k in range(len(audio_events)))+f'amix=inputs={len(audio_events)}:normalize=0,apad,atrim=0:{total},loudnorm=I=-14:TP=-1.5:LRA=11,aresample=48000[aout]'
-    subprocess.run(['ffmpeg','-y','-v','error','-i',out+'_v.mp4',*inputs,'-filter_complex',';'.join(flt+[mix]),'-map','0:v','-map','[aout]','-c:v','copy','-ac','2','-c:a','aac','-b:a','160k',out+'.mp4'],check=True)
+    subprocess.run(['ffmpeg','-y','-v','error','-i',out+'_v.mp4',*inputs,'-filter_complex',';'.join(flt+[mix]),'-map','0:v','-map','[aout]','-c:v','copy','-ac','2','-c:a','aac','-b:a','160k','-movflags','+faststart',out+'.mp4'],check=True)
 else:
     subprocess.run(['ffmpeg','-y','-v','error','-i',out+'_v.mp4','-f','lavfi','-i','anullsrc=r=44100:cl=stereo','-shortest','-c:v','copy','-c:a','aac',out+'.mp4'],check=True)
 print('done',total)

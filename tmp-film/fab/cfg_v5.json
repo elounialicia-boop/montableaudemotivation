@@ -287,11 +287,14 @@
    "texts": [
     [
      0.2,
-     2.95,
+     -0.05,
      "Et toi ?\nTon café, encore chaud.",
      1350
     ]
-   ]
+   ],
+   "voice": "moty7.mp3",
+   "voice_at": 0.25,
+   "auto_dur": 0.45
   },
   {
    "img": "plan8.jpg",
