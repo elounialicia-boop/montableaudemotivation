@@ -20,7 +20,17 @@ for c in ['moty-clip-chaos.mp4','moty-clip-cafe.mp4']:
     shutil.copy(src,'clips/'+c)
 env = dict(os.environ, PYTHONUTF8='1', IMG=ROOT+os.sep, SCR=os.path.join(ROOT,'ecrans')+os.sep, CLIPS='clips'+os.sep,
            VOIX=os.path.join(DL,'Film Moty','voix')+os.sep, FONT='fredoka-700.ttf')
-if not os.path.exists(os.path.join(DL,'Film Moty','voix','moty7.mp3')): sys.exit('MANQUE la voix moty7.mp3')
+VX=os.path.join(DL,'Film Moty','voix')
+LINES={'moty0.mp3':"Chez toi aussi, tu répètes dix fois la même chose ? Regarde, j'ai la solution !",
+       'moty7.mp3':"Et toi ? Ton café, encore chaud.",
+       'moty8.mp3':"Tu veux essayer ? Sept jours gratuits !"}
+if any(not os.path.exists(os.path.join(VX,f)) for f in LINES):
+    subprocess.run([sys.executable,'-m','pip','install','-q','edge-tts'],check=True)
+    import asyncio, edge_tts
+    for f,txt in LINES.items():
+        if not os.path.exists(os.path.join(VX,f)):
+            asyncio.run(edge_tts.Communicate(txt,'fr-FR-EloiseNeural',rate='+5%',pitch='+8Hz').save(os.path.join(VX,f)))
+            print('voix creee',f)
 subprocess.run([sys.executable,'montage.py','cfg_v5.json','film_v5'],env=env,check=True)
 out=os.path.join(DL,'Film Moty'); os.makedirs(out,exist_ok=True)
 v=os.path.join(out,'Film Moty V5 - vertical 9x16.mp4'); shutil.copy('film_v5.mp4',v)

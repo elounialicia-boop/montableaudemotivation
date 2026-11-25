@@ -85,7 +85,11 @@ APPC={}
 def app_screen(f, w):
     k=(f,w)
     if k not in APPC:
-        im=Image.open(SCR+f).convert('RGB').crop((370,120,1680,2732))
+        if not os.path.exists(SCR+f): print('ecran absent, remplace:',f); f2='missions2.png'
+        else: f2=f
+        im=Image.open(SCR+f2).convert('RGB')
+        if im.width/im.height>0.6: im=im.crop((370,120,1680,2732))   # iPad
+        else: im=im.crop((0,int(im.height*0.055),im.width,im.height))  # iPhone: no status bar
         h=int(w*im.height/im.width); APPC[k]=im.resize((w,h),Image.LANCZOS)
     return APPC[k]
 def ease(x): x=max(0,min(1,x)); return 1-(1-x)**3
@@ -144,7 +148,7 @@ def appdemo(s, t, clipf, cfps, bgsrc):
 shots=cfg['shots']; frames_total=sum(int(s['dur']*FPS) for s in shots)
 out=sys.argv[2]
 ff=subprocess.Popen(['ffmpeg','-y','-v','error','-f','rawvideo','-pix_fmt','bgr24','-s',f'{W}x{H}','-r',str(FPS),'-i','-','-c:v','libx264','-crf','18','-preset','medium','-pix_fmt','yuv420p',out+'_v.mp4'],stdin=subprocess.PIPE)
-audio_events=[]; t0=0.0; prev_last=None
+audio_events=[]; t0=0.0; prev_last=None; last_ve_abs=None
 for si,s in enumerate(shots):
     base=cv2.imread(IMG+s['img']) if s.get('img') else None
     bgsrc=None
@@ -167,6 +171,9 @@ for si,s in enumerate(shots):
         idx=np.where(env>0.08)[0]; s['_ve']=vs+(idx[-1]+1)/FPS
         if s.get('auto_dur') is not None: s['dur']=round(s['_ve']+s['auto_dur'],3)
         print('shot',si,'voice_end',round(s['_ve'],2),'dur',s['dur'])
+        last_ve_abs=t0+s['_ve']
+    if s.get('wait_voice') is not None and last_ve_abs is not None:
+        s['dur']=round(max(s['dur'], last_ve_abs-t0+s['wait_voice']),3); print('shot',si,'waits voice, dur',s['dur'])
         tag=f"m{si}"
         if s.get('mouth'): plates(IMG+s['img'],tuple(s['mouth']),tag)
     if clipf is not None:

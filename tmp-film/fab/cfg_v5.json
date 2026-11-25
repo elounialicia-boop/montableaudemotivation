@@ -21,7 +21,9 @@
      "« Mets tes chaussures ! »\n×10. Chaque matin.",
      1400
     ]
-   ]
+   ],
+   "voice": "moty0.mp3",
+   "voice_at": 0.3
   },
   {
    "img": "plan2.jpg",
@@ -41,11 +43,12 @@
    "texts": [
     [
      0.05,
-     2.25,
+     -0.05,
      "Dents, habits, cartable…\nla course !",
      1380
     ]
-   ]
+   ],
+   "wait_voice": 0.3
   },
   {
    "img": "plan3.jpg",
@@ -98,7 +101,11 @@
    "app": [
     [
      0,
-     "missions2.png"
+     "missions-37.png"
+    ],
+    [
+     2.95,
+     "missions-710.png"
     ]
    ],
    "taps": [
@@ -137,8 +144,14 @@
    "texts": [
     [
      0.2,
-     -0.1,
+     2.85,
      "Ses missions du matin,\nen images !",
+     300
+    ],
+    [
+     3.0,
+     -0.1,
+     "Et pour les grands\nde 7 à 10 ans !",
      300
     ]
    ]
@@ -235,7 +248,7 @@
     ],
     [
      1.6,
-     "recompense2.png"
+     "recompenses3d.jpg"
     ]
    ],
    "taps": [
@@ -243,6 +256,11 @@
      1.35,
      0.5,
      0.77
+    ],
+    [
+     2.5,
+     0.27,
+     0.43
     ]
    ],
    "starfx": 0.3,
@@ -265,6 +283,13 @@
      -0.1,
      "Ses étoiles =\nune vraie récompense !",
      300
+    ]
+   ],
+   "checks": [
+    [
+     2.65,
+     0.43,
+     0.33
     ]
    ]
   },
@@ -310,13 +335,19 @@
     0.44
    ],
    "trans": "whip",
-   "voice": "moty6b.mp3",
+   "voice": "moty8.mp3",
    "voice_at": 0.05,
    "auto_dur": 0.12,
    "dur": 4.5,
-   "cta": 0.6,
-   "cta_y": 400,
-   "texts": []
+   "texts": [
+    [
+     0.1,
+     -0.05,
+     "Tu veux essayer ?\n7 jours gratuits !",
+     620,
+     "bubble"
+    ]
+   ]
   },
   {
    "img": "plan8.jpg",
@@ -339,17 +370,30 @@
     ]
    ],
    "pw": 440,
-   "phone_y": 1260,
+   "phone_y": 1250,
    "cta": 0.0,
    "cta_y": 400,
    "cta_static": true,
    "texts": [
     [
      0.0,
-     2.0,
+     -0.0001,
      "Des matins sans cris.",
      700
     ]
+   ],
+   "clip": "h_d.mp4",
+   "voice": "moty6b.mp3",
+   "voice_at": 0.15,
+   "auto_dur": 0.7,
+   "moty_crop": [
+    0.52,
+    0.5,
+    0.5
+   ],
+   "moty_xy": [
+    160,
+    1560
    ]
   }
  ]
