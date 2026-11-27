@@ -12,7 +12,7 @@
     var k = kits[i], img = k.querySelector('img'), body = k.querySelector('.body'), h = k.querySelector('h3');
     if (!img || !body) continue;
     var sec = k.closest('section[id]');
-    var page = location.origin + location.pathname + (sec && sec.id !== 'tableaux' ? '#' + sec.id : '');
+    var page = location.origin + location.pathname + (sec && sec.id !== 'tableaux' && sec.id !== 'epingler' ? '#' + sec.id : '');
     var media = new URL(img.getAttribute('src'), location.href).href;
     var titre = h ? h.textContent.trim() : '';
     var a = document.createElement('a');
@@ -22,7 +22,8 @@
     a.href = 'https://www.pinterest.com/pin/create/button/?url=' + encodeURIComponent(page) +
       '&media=' + encodeURIComponent(media) +
       '&description=' + encodeURIComponent((img.getAttribute('alt') || titre) + suite + marque);
-    a.textContent = fr ? '📌 Enregistrer sur Pinterest' : '📌 Save to Pinterest';
+    var court = sec && sec.id === 'epingler';
+    a.textContent = court ? (fr ? '📌 Épingler' : '📌 Save') : (fr ? '📌 Enregistrer sur Pinterest' : '📌 Save to Pinterest');
     var pdf = body.querySelector('[data-goatcounter-click]');
     a.setAttribute('data-goatcounter-click', 'pinterest-' + (pdf ? pdf.getAttribute('data-goatcounter-click').replace(/^pdf-/, '') : i));
     body.appendChild(a);
