@@ -12,7 +12,7 @@
 <link rel="icon" href="../images/icone.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;800&family=Lora:ital,wght@0,400;0,500;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Outfit:wght@400;500;600;800&family=Lora:ital,wght@0,400;0,500;1,400&display=swap">
 <style>
 :root{
   --ground:#FFF6ED; --surface:#FFFFFF; --lavande:#EDE5FF; --menthe:#E8F5E9;
@@ -47,7 +47,7 @@ a{color:var(--purple-ink)}
 :focus-visible{outline:3px solid var(--purple);outline-offset:3px;border-radius:8px}
 .lede{font-family:"Lora",Georgia,serif;font-size:clamp(1.05rem,2.4vw,1.25rem);color:var(--muted);max-width:40ch;margin:1rem auto 0}
 .eyebrow{font-size:.76rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--purple-ink);margin:0 0 .7rem}
-header{background:var(--surface);text-align:center;padding:36px 0 44px}
+header{background:transparent;text-align:center;padding:36px 0 44px}
 .badge{display:inline-flex;align-items:center;gap:.55rem;background:var(--ground);border:1px solid var(--line);border-radius:999px;padding:.35rem .95rem .35rem .4rem;margin-bottom:1.2rem;text-decoration:none;color:var(--ink)}
 .badge img{width:34px;height:34px;border-radius:9px;display:block}
 .badge span{font-weight:600}
@@ -72,12 +72,35 @@ header{position:relative}
 .chiffre{background:var(--ground);border:1px solid var(--line);border-radius:18px;padding:.7rem 1.3rem;min-width:170px}
 .chiffre b{display:block;font-size:1.6rem;color:var(--vert-texte);line-height:1.1}
 .chiffre span{font-size:.88rem;color:var(--muted)}
-.avis{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-.avis figure{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.4rem 1.4rem 1.2rem;display:flex;flex-direction:column;gap:.7rem}
-.avis .etoiles{color:#E9A93A;letter-spacing:.12em;font-size:1.05rem}
-.avis blockquote{margin:0;font-family:"Lora",Georgia,serif;font-size:1.05rem;line-height:1.65;color:var(--ink)}
-.avis figcaption{margin-top:auto;font-size:.9rem;color:var(--muted)}
-.avis figcaption b{color:var(--vert-texte);font-weight:600}
+/* ─────────── avis des parents : post-it et polaroid ─────────── */
+.liege{--liege:#FBF3E6;--point:#EAD9BF;--rose:#C2577F;--vertp:#4F9A40;background-color:var(--liege);background-image:radial-gradient(var(--point) 1.5px,transparent 1.6px);background-size:26px 26px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .liege{--liege:#1E1A24;--point:#2F2838;--rose:#E58AB5;--vertp:#8FD07E}}
+:root[data-theme="dark"] .liege{--liege:#1E1A24;--point:#2F2838;--rose:#E58AB5;--vertp:#8FD07E}
+.petits-mots{font-family:"Caveat",cursive;font-size:clamp(1.9rem,4.5vw,2.4rem);color:var(--rose);transform:rotate(-3deg);margin:0 0 .1rem;line-height:1}
+.surligne{background:linear-gradient(transparent 60%,rgba(143,208,126,.55) 60%);padding:0 .15em}
+.stickers{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;margin-top:1.4rem}
+.sticker{width:118px;height:118px;border-radius:50%;background:#fff;display:grid;place-items:center;text-align:center;box-shadow:0 8px 18px rgba(120,90,40,.18);font-family:"Caveat",cursive;font-size:1.15rem;color:#3D3560;line-height:1.05}
+.sticker b{display:block;font-family:"Outfit",sans-serif;font-weight:800;font-size:1.5rem;color:#4F9A40}
+.sticker:nth-child(1){transform:rotate(-8deg)}.sticker:nth-child(2){transform:rotate(7deg)}
+.postits{display:grid;gap:34px 26px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-top:2.4rem;align-items:start}
+.postit{position:relative;margin:0;padding:2.2rem 1.5rem 1.3rem;color:#3D3560;box-shadow:0 16px 30px rgba(120,90,40,.2);font-family:"Caveat",cursive;font-size:1.55rem;line-height:1.18;transition:transform .2s ease}
+.postit::before{content:"";position:absolute;width:110px;height:30px;left:50%;margin-left:-55px;top:-13px;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.75);transform:rotate(3deg)}
+.postit:nth-child(3n+1){transform:rotate(-2deg)}.postit:nth-child(3n+2){transform:rotate(1.6deg)}.postit:nth-child(3n){transform:rotate(-1deg)}
+.postit:hover{transform:rotate(0) scale(1.02)}
+.postit blockquote{margin:0}
+.postit .etoiles{font-family:"Outfit",sans-serif;color:#E9A93A;letter-spacing:.15em;font-size:1.05rem;margin-bottom:.4rem}
+.postit figcaption{margin-top:.8rem;font-size:1.45rem;color:#C2577F}
+.postit figcaption small{display:block;font-size:1.1rem;color:#8A7D6A}
+.jaune{background:#FFF3A8}.rose{background:#FFD9E6}.menthe-p{background:#D6F0D2}.lilas{background:#E6DCFF}.peche{background:#FFE0C7}
+.polaroid{display:inline-block;position:relative;background:#fff;padding:12px 12px 46px;box-shadow:0 14px 28px rgba(120,90,40,.22);transform:rotate(-4deg)}
+.polaroid::before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;left:50%;margin-left:-11px;top:-9px;background:radial-gradient(circle at 35% 35%,#FF9FBF,#D9557F);box-shadow:0 3px 5px rgba(0,0,0,.25)}
+.polaroid span{display:grid;place-items:center;width:150px;height:150px;background:linear-gradient(#E3F3EA,#FDE8F1)}
+.polaroid img{width:128px;height:auto}
+.polaroid em{position:absolute;bottom:10px;left:0;right:0;text-align:center;font-family:"Caveat",cursive;font-style:normal;font-size:1.3rem;color:#3D3560}
+.avis-bas{display:flex;gap:2rem;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:2.6rem}
+.bouton-avis{display:inline-block;font-family:"Caveat",cursive;font-size:1.7rem;color:#fff;background:#4F9A40;border-radius:14px;padding:.35rem 1.4rem;text-decoration:none;transform:rotate(-2deg);box-shadow:0 8px 16px rgba(79,154,64,.35);transition:transform .16s ease}
+.bouton-avis:hover{transform:rotate(0) translateY(-2px)}
+@media (prefers-reduced-motion:reduce){.postit,.bouton-avis{transition:none}}
 .papier-titre{text-align:center;margin:2.6rem 0 1.2rem;font-size:1.3rem}
 .epingles{display:grid;gap:16px;grid-template-columns:repeat(3,1fr);max-width:760px;margin:1.4rem auto 0}
 @media (max-width:560px){.epingles{grid-template-columns:repeat(2,1fr)}}
@@ -85,67 +108,68 @@ header{position:relative}
 .ecrire{max-width:56ch;margin:1.4rem auto 0;text-align:center;color:var(--muted)}
 </style>
 </head>
-<body>
+<body class="liege">
 <header>
   <div class="wrap">
     <a class="badge" href="../"><img src="../images/icone.jpg" alt=""><span>Mon Tableau de Motivation</span></a>
-    <p class="eyebrow">Avis des parents</p>
-    <h1>Ce que les parents en disent</h1>
+    <p class="petits-mots">Vos petits mots…</p>
+    <h1>Ils en <span class="surligne">parlent</span> mieux que moi</h1>
     <p class="lede center-block">Des mamans et des papas racontent ce que le tableau de motivation a changé chez eux.</p>
-    <div class="chiffres">
-      <div class="chiffre"><b>★ 4,5 / 5</b><span>sur l'App Store</span></div>
-      <div class="chiffre"><b>100 %</b><span>recommandé sur Facebook</span></div>
+    <div class="stickers">
+      <div class="sticker"><div><b>4,5/5</b>App Store</div></div>
+      <div class="sticker"><div><b>100 %</b>recommandé<br>sur Facebook</div></div>
     </div>
   </div>
 </header>
 
 <section>
   <div class="wrap">
-    <div class="avis">
-      <figure>
+    <div class="postits">
+      <figure class="postit jaune">
         <div class="etoiles" aria-label="5 étoiles sur 5">★★★★★</div>
         <blockquote>« Mes enfants n'ont jamais autant participé aux tâches ménagères depuis que j'ai installé l'application. Ils ont mémorisé la liste des missions par cœur et tous les soirs, c'est le même rituel : la récolte des étoiles 😃 Je recommande ce tableau de motivation +++. »</blockquote>
-        <figcaption><b>lilas192</b> · avis App Store</figcaption>
+        <figcaption>— lilas192<small>avis App Store</small></figcaption>
       </figure>
-      <figure>
+      <figure class="postit menthe-p">
         <blockquote>« Pour avoir utilisé la première version papier avec mes enfants, je peux vous dire que non, ils n'attendent pas de récompense. Ils ont appris à être autonomes, à leur rythme et sans tension familiale. Maintenant qu'ils sont ados, ils gèrent la majorité des choses facilement. J'approuve à 100 %, et je recommande vivement de télécharger l'application. »</blockquote>
-        <figcaption><b>Leslie T.</b> · maman, sur Facebook</figcaption>
+        <figcaption>— Leslie T.<small>maman, sur Facebook</small></figcaption>
       </figure>
-      <figure>
+      <figure class="postit rose">
         <div class="etoiles" aria-label="5 étoiles sur 5">★★★★★</div>
         <blockquote>« J'adore cette application ! Depuis que je l'ai, je participe plus à la maison, j'apprends plein de nouvelles choses en m'amusant et on profite plus en famille. »</blockquote>
-        <figcaption><b>FamilleSo12</b> · avis App Store</figcaption>
+        <figcaption>— FamilleSo12<small>avis App Store</small></figcaption>
       </figure>
-      <figure>
+      <figure class="postit lilas">
         <blockquote>« J'ai pris l'abonnement à l'année : il rentre au collège l'année prochaine, j'ai besoin qu'il s'organise mieux. »</blockquote>
-        <figcaption><b>Isa F.</b> · maman, sur Facebook</figcaption>
+        <figcaption>— Isa F.<small>maman, sur Facebook</small></figcaption>
       </figure>
-      <figure>
+      <figure class="postit peche">
         <blockquote>« Mon fils autiste a besoin de sa tablette, donc de l'application, pour avoir un visuel immédiat. »</blockquote>
-        <figcaption><b>Tatiana V.</b> · maman, sur Facebook</figcaption>
+        <figcaption>— Tatiana V.<small>maman, sur Facebook</small></figcaption>
       </figure>
-      <figure>
+      <figure class="postit jaune">
         <blockquote>« L'appli peut être plus motivante pour certains enfants récalcitrants. »</blockquote>
-        <figcaption><b>Lau Ri A.</b> · sur Facebook</figcaption>
+        <figcaption>— Lau Ri A.<small>sur Facebook</small></figcaption>
       </figure>
     </div>
 
     <h2 class="papier-titre">Et sur le tableau papier, avant l'application</h2>
-    <div class="avis">
-      <figure>
+    <div class="postits">
+      <figure class="postit menthe-p">
         <blockquote>« Super tableau, je l'utilise avec mon fils. Très vite, il s'est mis à comprendre l'utilisation et fait les demandes sans bouder. Papa et maman sont trèèès contents. TOP ! »</blockquote>
-        <figcaption><b>Claudine L.</b> · recommandation Facebook</figcaption>
+        <figcaption>— Claudine L.<small>recommandation Facebook</small></figcaption>
       </figure>
-      <figure>
+      <figure class="postit rose">
         <blockquote>« J'ai reçu mon tableau de motivation très rapidement et ma fille a beaucoup apprécié ! C'est un très bon travail ! »</blockquote>
-        <figcaption><b>Susana F.</b> · recommandation Facebook</figcaption>
+        <figcaption>— Susana F.<small>recommandation Facebook</small></figcaption>
       </figure>
     </div>
   </div>
 </section>
 
-<section class="menthe">
+<section>
   <div class="wrap center">
+    <p class="petits-mots">À votre tour…</p>
     <h2>Essayez-le chez vous</h2>
     <p class="ecrire">Missions, étoiles et récompenses, pour les enfants de 3 à 10 ans. 7 jours d'essai gratuit, sans engagement.</p>
     <div class="stores">
@@ -158,7 +182,7 @@ header{position:relative}
 
 <section>
   <div class="wrap center">
-    <h2>Épinglez ces avis</h2>
+    <h2>Épinglez leurs petits mots</h2>
     <div class="epingles">
       <img src="avis-00-resume.jpg" alt="Ce que les parents disent de l'application Mon tableau de motivation : 4,5 sur 5 sur l'App Store et 100 % recommandé sur Facebook" loading="lazy">
       <img src="avis-01-lilas.jpg" alt="Avis d'une maman : tous les soirs, le rituel des étoiles avec l'application Mon tableau de motivation" loading="lazy">
