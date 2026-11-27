@@ -234,8 +234,7 @@ footer a{color:var(--muted)}
 [dir="rtl"] .hint,[dir="rtl"] .eyebrow{letter-spacing:normal}
 
 /* ─────────── livres de Moty (version française seulement) ─────────── */
-.livres{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:2rem}
-@media (max-width:900px){.livres{grid-template-columns:repeat(2,1fr)}}
+.livres{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:2rem;max-width:820px;margin-left:auto;margin-right:auto}
 @media (max-width:640px){.livres{grid-template-columns:1fr}}
 .livre{
   background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
@@ -326,7 +325,7 @@ a.livre-bouton:hover{transform:translateY(-2px)}
     <div class="col prose" style="text-align:center">
       <p class="eyebrow">Les histoires de Moty</p>
       <h2>Les livres de Moty</h2>
-      <p style="margin-top:1rem">Moty, la mascotte de l'application, a maintenant ses propres livres. Des histoires douces et rigolotes pour les 3-6&nbsp;ans, qui transforment les petites batailles du quotidien en aventures.</p>
+      <p style="margin-top:1rem">Moty, la mascotte de l'application, a maintenant ses propres livres. Des histoires douces et rigolotes pour les 3-6&nbsp;ans, qui transforment les petites batailles du quotidien en aventures, et un cahier de jeux et de coloriages.</p>
     </div>
     <div class="livres">
       <article class="livre">
@@ -351,6 +350,14 @@ a.livre-bouton:hover{transform:translateY(-2px)}
         <p>Des jouets partout, et Moty ne veut pas ranger&nbsp;! Mais ses jouets ne retrouvent plus leur maison. Avec son chapeau de capitaine, Moty ramène chaque jouet chez lui. Avec un tableau à colorier à la fin du livre.</p>
         <p class="prix">9,99&nbsp;€ · livre broché</p>
         <a class="livre-bouton" href="https://www.amazon.fr/dp/B0HSS6S3YP" target="_blank" rel="noopener" data-goatcounter-click="amazon-tome3-accueil">📖 Voir sur Amazon</a>
+      </article>
+      <article class="livre">
+        <img src="images/livre-moty-cahier.jpg" alt="Couverture du cahier « Joue avec Moty » : Moty, bras levés devant un arc-en-ciel, avec coloriages, labyrinthes et jeux, 3-7 ans." loading="lazy" width="600" height="600">
+        <p class="tome">Cahier de jeux</p>
+        <h3>Joue avec Moty</h3>
+        <p>Un grand cahier A4 tout en couleur pour les 3-7&nbsp;ans&nbsp;: 11 coloriages et plus de 30 jeux (labyrinthes, sudoku en images, mots cachés, différences, points à relier…). Une étoile à colorier après chaque jeu, un tableau de motivation et un diplôme à la fin.</p>
+        <p class="prix">15,82&nbsp;€ · 50 pages · A4</p>
+        <a class="livre-bouton" href="https://www.amazon.fr/dp/B0HT3B6NYJ" target="_blank" rel="noopener" data-goatcounter-click="amazon-cahier-accueil">📖 Voir sur Amazon</a>
       </article>
     </div>
   </div>
