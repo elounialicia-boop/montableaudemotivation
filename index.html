@@ -121,6 +121,16 @@ section{padding:clamp(48px,7vw,84px) 0}
 .imprimer-lien{display:inline-flex;align-items:center;gap:.4rem;margin-top:1.1rem;padding:.6rem 1.2rem;border-radius:999px;border:2px solid var(--purple-ink);color:var(--purple-ink);background:var(--surface);font-weight:600;text-decoration:none;transition:transform .16s ease}
 .imprimer-lien:hover{transform:translateY(-2px)}
 .livre-lien{margin-left:.5rem;border-color:var(--purple-ink);background:var(--purple-ink);color:var(--surface)}
+.avis-lien{margin-left:.5rem;border-color:var(--vert-texte);color:var(--vert-texte)}
+@media (max-width:560px){.avis-lien{margin-left:0}}
+/* ─────────── avis des parents (version française seulement) ─────────── */
+.avis-grille{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-top:2rem}
+.avis-carte{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.3rem 1.35rem 1.15rem;display:flex;flex-direction:column;gap:.65rem}
+.avis-carte .etoiles{color:var(--amber);letter-spacing:.12em;font-size:1rem;line-height:1}
+.avis-carte blockquote{margin:0;font-family:"Lora",Georgia,serif;font-size:1.02rem;line-height:1.65;color:var(--ink)}
+.avis-carte figcaption{margin-top:auto;font-size:.88rem;color:var(--muted)}
+.avis-carte figcaption b{color:var(--vert-texte);font-weight:600}
+.avis-plus{text-align:center;margin-top:1.6rem}
 @media (max-width:560px){.livre-lien{margin-left:0}}
 .astuce-appli{text-align:center;font-size:.85rem;line-height:1.4;margin:.9rem auto 0;max-width:34ch;opacity:.85}
 
@@ -304,6 +314,7 @@ a.livre-bouton:hover{transform:translateY(-2px)}
     </div>
     <a class="imprimer-lien" href="imprimer/" data-t="105">🖨️ Tableaux gratuits à imprimer</a>
     <a class="imprimer-lien livre-lien" href="#livres" data-t="106" data-goatcounter-click="bouton-livres-de-moty">📖 Les livres de Moty</a>
+    <a class="imprimer-lien avis-lien" href="#avis" data-goatcounter-click="bouton-avis-parents">💬 Avis des parents</a>
   </div>
 </header>
 
@@ -382,6 +393,38 @@ a.livre-bouton:hover{transform:translateY(-2px)}
       <div class="card"><span class="ico">☀️</span><h3 data-t="103">Des journées plus sereines</h3>
         <p data-t="104">Moins de disputes, moins de cris. Vous ne jouez plus le gendarme : vous êtes là pour le féliciter.</p></div>
     </div>
+  </div>
+</section>
+
+<!-- ══════════ AVIS DES PARENTS (français seulement : cachée par le
+     script quand une autre langue est choisie) ══════════ -->
+<section id="avis">
+  <div class="wrap">
+    <div class="col" style="text-align:center">
+      <p class="eyebrow">Avis des parents</p>
+      <h2>Ce que les parents en disent</h2>
+      <div class="notes">
+        <span class="pill etoile"><b>★</b> 4,5 sur l'App&nbsp;Store</span>
+        <span class="pill vert">100&nbsp;% recommandé sur Facebook</span>
+      </div>
+    </div>
+    <div class="avis-grille">
+      <figure class="avis-carte">
+        <div class="etoiles" aria-label="5 étoiles sur 5">★★★★★</div>
+        <blockquote>« Mes enfants n'ont jamais autant participé aux tâches ménagères depuis que j'ai installé l'application. Tous les soirs, c'est le même rituel : la récolte des étoiles 😃 Je recommande +++. »</blockquote>
+        <figcaption><b>lilas192</b> · avis App Store</figcaption>
+      </figure>
+      <figure class="avis-carte">
+        <blockquote>« Mes enfants ont appris à être autonomes, à leur rythme et sans tension familiale. Maintenant qu'ils sont ados, ils gèrent la majorité des choses facilement. Je recommande vivement l'application. »</blockquote>
+        <figcaption><b>Leslie T.</b> · maman, sur Facebook</figcaption>
+      </figure>
+      <figure class="avis-carte">
+        <div class="etoiles" aria-label="5 étoiles sur 5">★★★★★</div>
+        <blockquote>« J'adore cette application ! Depuis que je l'ai, je participe plus à la maison, j'apprends plein de choses en m'amusant et on profite plus en famille. »</blockquote>
+        <figcaption><b>FamilleSo12</b> · avis App Store</figcaption>
+      </figure>
+    </div>
+    <p class="avis-plus"><a class="imprimer-lien" href="avis/" data-goatcounter-click="voir-tous-les-avis">Lire tous les avis →</a></p>
   </div>
 </section>
 
@@ -648,6 +691,10 @@ a.livre-bouton:hover{transform:translateY(-2px)}
     liensStores(code);
     var livres = document.getElementById('livres');
     if (livres) livres.hidden = (code !== 'fr');
+    var avis = document.getElementById('avis');
+    if (avis) avis.hidden = (code !== 'fr');
+    var avisLien = document.querySelector('a.avis-lien');
+    if (avisLien) avisLien.hidden = (code !== 'fr');
     /* Bouton livres : en français il descend à la section « Les livres de Moty »
        (les 2 tomes). Dans les autres langues la section est cachée, alors il
        ouvre le tome 1 sur Amazon. */
